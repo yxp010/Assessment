@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { actions } from './reducer';
 import { useSelector } from 'react-redux';
 import { useQuery } from 'urql';
@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import MetricCard from './MetricCard'
 
 const useStyles = makeStyles({
   card: {
@@ -24,10 +25,10 @@ const useStyles = makeStyles({
   },
 });
 
-const query = `
-query {
-  getMetrics
-}
+const query = (metric) => `
+  query(metricName: ${metric}) {
+    value
+  }
 `;
 
 const getMetrics = state => {
@@ -39,17 +40,7 @@ export default function MetricCards() {
   const classes = useStyles();
 
   const formCards = cards => {
-    return cards.map((c, idx) => {
-      return (
-        <Card key={idx} className={classes.card}>
-          <CardContent>
-            <Typography variant="h5" component="h2">
-              {c}
-            </Typography>
-          </CardContent>
-        </Card>
-      );
-    });
+    return cards.map((c, idx) => <MetricCard metric={c} key={idx} />);
   };
 
   const selectedMetrics = useSelector(getMetrics);

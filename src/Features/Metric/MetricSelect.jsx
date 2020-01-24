@@ -11,25 +11,24 @@ query {
 }
 `;
 
-const formMetrics = (metrics) => {
+const formMetrics = metrics => {
   return metrics.map((m, idx) => {
     return {
       value: m,
       key: idx,
-      text: m
-    }
-  })
-}
+      text: m,
+    };
+  });
+};
 
 export default function MetricSelect() {
-
-  const [metrics, setMetics] = useState([])
+  const [metrics, setMetics] = useState([]);
 
   const dispatch = useDispatch();
-  const handleChange = (e, { value }) => dispatch(actions.addMetric({selectedMetrics: value}))
+  const handleChange = (e, { value }) => dispatch(actions.addMetric({ selectedMetrics: value }));
 
-  const [result] = useQuery({query})
-  const { fetching, data, error } = result
+  const [result] = useQuery({ query });
+  const { fetching, data, error } = result;
 
   useEffect(() => {
     if (error) {
@@ -37,11 +36,13 @@ export default function MetricSelect() {
       return;
     }
     if (!data) return;
-    const { getMetrics } = data
-    setMetics(formMetrics(getMetrics))
+    const { getMetrics } = data;
+    setMetics(formMetrics(getMetrics));
   }, [dispatch, data, error, setMetics]);
 
   if (fetching) return <LinearProgress />;
 
-  return <Dropdown onChange={handleChange} placeholder="Select metrics" fluid multiple search selection options={metrics}/>;
+  return (
+    <Dropdown onChange={handleChange} placeholder="Select metrics" fluid multiple search selection options={metrics} />
+  );
 }
