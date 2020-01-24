@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import { actions } from './reducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'urql';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-const query = `
-query {
-  getMetrics
-}
-`;
+
 
 const formMetrics = metrics => {
   return metrics.map((m, idx) => {
@@ -21,28 +17,20 @@ const formMetrics = metrics => {
   });
 };
 
+const getMetrics = state => {
+  const { allMetrics } = state.metrics;
+  // debugger
+  return allMetrics;
+};
+
 export default function MetricSelect() {
-  const [metrics, setMetics] = useState([]);
+  const metrics = useSelector(getMetrics);
 
   const dispatch = useDispatch();
   const handleChange = (e, { value }) => dispatch(actions.addMetric({ selectedMetrics: value }));
 
-  const [result] = useQuery({ query });
-  const { fetching, data, error } = result;
-
-  useEffect(() => {
-    if (error) {
-      dispatch(actions.weatherApiErrorReceived({ error: error.message }));
-      return;
-    }
-    if (!data) return;
-    const { getMetrics } = data;
-    setMetics(formMetrics(getMetrics));
-  }, [dispatch, data, error, setMetics]);
-
-  if (fetching) return <LinearProgress />;
-
+  if (!metrics || metrics.length <= 0) return <LinearProgress />;
   return (
-    <Dropdown onChange={handleChange} placeholder="Select metrics" fluid multiple search selection options={metrics} />
+    <Dropdown onChange={handleChange} placeholder="Select metrics" fluid multiple search selection options={formMetrics(metrics)} />
   );
 }
