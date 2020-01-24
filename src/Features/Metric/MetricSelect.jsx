@@ -11,19 +11,6 @@ query {
 }
 `;
 
-// const metrics = [
-//   {
-//     value: 'waterTemp',
-//     key: 0,
-//     text: 'waterTemp',
-//   },
-//   {
-//     value: 'otherTemp',
-//     key: 1,
-//     text: 'otherTemp',
-//   },
-// ];
-
 const formMetrics = (metrics) => {
   return metrics.map((m, idx) => {
     return {
@@ -40,7 +27,6 @@ export default function MetricSelect() {
 
   const dispatch = useDispatch();
   const handleChange = (e, { value }) => dispatch(actions.addMetric({selectedMetrics: value}))
-
 
   const [result] = useQuery({query})
   const { fetching, data, error } = result

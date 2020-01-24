@@ -26,7 +26,6 @@ const getWeather = (state: IState) => {
   };
 };
 
-
 export default () => {
   const getLocation = useGeolocation();
   // Default to houston

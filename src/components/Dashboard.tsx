@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import MetricSelect from '../Features/MetricDropdown/MetricSelect'
+import MetricSelect from '../Features/Metric/MetricSelect'
+import MetricCards from '../Features/Metric/MetricCards'
 
 const useStyles = makeStyles({
   dashboard: {
@@ -15,6 +16,7 @@ export default function Dashborad() {
   return (
     <div className={classes.dashboard}>
         <MetricSelect />
+        <MetricCards />
     </div>
   );
 };
