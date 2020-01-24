@@ -24,39 +24,17 @@ const useStyles = makeStyles({
   },
 });
 
-const query = `
-  query($metricName: String!) {
-    getLastKnownMeasurement(metricName: $metricName) {
-        value
-      }
-  }
-`;
-
-const getMetrics = state => {
-  const { selectedMetrics } = state.metrics;
-  return selectedMetrics;
+const getMeasurements = state => {
+  const { allMeasurements } = state.metrics;
+  return { allMeasurements };
 };
 
 export default function MetricCards({ metric }) {
   const classes = useStyles();
   const [value, setValue] = useState();
-  const [result] = useQuery({
-      query,
-      variables: {
-          metricName: metric
-      }
-  });
-  const { fetching, data, error } = result;
-  useEffect(() => {
-    if (error) {
-      // dispatch(actions.weatherApiErrorReceived({ error: error.message }));
-      console.log(error)
-      return;
-    }
-    if (!data) return;
-    const { getLastKnownMeasurement } = data;
-    setValue(getLastKnownMeasurement.value)
-  }, [data, error, setValue]);
+  const { allMeasurements } = useSelector(getMeasurements)
+  const measurements = allMeasurements[metric]
+  const lastValue = measurements[measurements.length - 1].value
 
   return (
     <Card className={classes.card}>
@@ -65,7 +43,7 @@ export default function MetricCards({ metric }) {
               {metric}
             </Typography>
             <Typography variant="h5" component="h2">
-              {value}
+              {lastValue}
             </Typography>
           </CardContent>
         </Card>

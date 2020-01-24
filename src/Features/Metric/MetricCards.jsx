@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { actions } from './reducer';
 import { useSelector } from 'react-redux';
-import { useQuery } from 'urql';
+import { useSubscription } from 'urql';
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
@@ -25,18 +25,6 @@ const useStyles = makeStyles({
   },
 });
 
-const getMeasurements = `
-  query($input: MeasurementQuery) {
-    getMeasurements(input: $input) {
-      at 
-      value
-      unit
-    }
-  }
-`;
-
-
-
 const getMetrics = state => {
   const { selectedMetrics } = state.metrics;
   return selectedMetrics;
@@ -44,9 +32,12 @@ const getMetrics = state => {
 
 export default function MetricCards() {
   const classes = useStyles();
-  const ref = useRef();
+  // const ref = useRef();
   const selectedMetrics = useSelector(getMetrics);
+  // const [result] = useSubscription({ query })
 
+  // console.log(result)
+  // debugger
   const formCards = cards => {
     return cards.map((c, idx) => <MetricCard metric={c} key={idx} />);
   };
