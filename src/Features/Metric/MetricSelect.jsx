@@ -47,14 +47,13 @@ export default function MetricSelect() {
     // debugger
     if (!data) return
     if (!allMeasurements || allMeasurements && Object.keys(allMeasurements).length === 0) return
-    
+
     // debugger
     let newMeasurement = data.newMeasurement
     let metric = newMeasurement.metric
     let time = newMeasurement.at
     let lastMeasurement = allMeasurements[metric][allMeasurements[metric].length - 1]
-    console.log("last", lastMeasurement)
-    console.log("new", newMeasurement)
+
     // Compare if the subscription return the new data is newer last measurement for this metric
     if (lastMeasurement.at < time) {
 

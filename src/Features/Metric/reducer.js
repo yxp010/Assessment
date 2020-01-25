@@ -22,7 +22,7 @@ const slice = createSlice({
       // remove the oldest measurement 
       // add the new measurement
       let measurements = state.allMeasurements[action.payload.metric]
-      state.allMeasurements[action.payload.metric] = [...measurements.slice(1), action.payload.newMeasurement]
+      state.allMeasurements[action.payload.metric] = [...measurements, action.payload.newMeasurement]
     },
     metricApiErrorReceived: (state, action) => state,
   },

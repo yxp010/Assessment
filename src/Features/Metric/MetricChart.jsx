@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { actions } from './reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'urql';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import Chart from './Chart'
 
 const getMultiMeasurements = `
    query($input:[MeasurementQuery]) {
@@ -67,5 +67,5 @@ export default function MetricChart() {
     dispatch(actions.setMeasurements({ allMeasurements: measurements }));
   }, [data, error, dispatch]);
 
-  return null;
+  return <Chart />;
 }
